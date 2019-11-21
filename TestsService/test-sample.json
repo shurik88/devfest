@@ -1,0 +1,38 @@
+{
+  "Name": "Тест№1",
+  "Author": "Будыльский АВ",
+  "HasCreativePart": false,
+  "Questions": [
+    {
+      "Name": "Что такое осень?",
+      "IsRequired": true,
+      "HasMany": true,
+      "Choices": [
+        "небо",
+        "камни",
+        "ветер",
+        "шевчук"
+      ]
+    },
+    {
+      "Name": "С чего начинается родина?",
+      "IsRequired": true,
+      "HasMany": false,
+      "Choices": [
+        "небо",
+        "товарищ",
+        "букварь",
+        "песня"
+      ]
+    },
+    {
+      "Name": "Вопрос №3",
+      "IsRequired": false,
+      "HasMany": false,
+      "Choices": [
+        "да",
+        "нет"
+      ]
+    }
+  ]
+}
