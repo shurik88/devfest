@@ -55,7 +55,7 @@ namespace SurveyService
             // Entity Framework 
             services.AddDbContext<SurveysDbContext>(options =>
                 options
-                    .EnableSensitiveDataLogging()
+                    //.EnableSensitiveDataLogging()
                     .UseNpgsql(
                         _dbContextSettings.Value.ConnectionString,
                         b => b.MigrationsAssembly("SurveyService")

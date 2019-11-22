@@ -9,7 +9,7 @@ class OpLogMessage(object):
         self.source = "tests"
         self.entity = collection
         self.action = "update" if action == "replace" else action
-        self.data = { "source": "tests", "entity": self.entity, "operation": action, "key": key  }
+        self.data = { "source": "tests", "entity": self.entity, "operation": self.action, "key": key  }
 
 def sendMessageToRabbitMq(msg: OpLogMessage):
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
@@ -18,7 +18,7 @@ def sendMessageToRabbitMq(msg: OpLogMessage):
     channel.basic_publish(exchange='devfesttests',
                       routing_key=to,
                       body=json.dumps(msg.data))
-    print("message to {0}".format(to))
+    print("message to {0} sended".format(to))
 
 client = MongoClient('mongodb://localhost:27018/devfest?replicaSet=replocal')
 

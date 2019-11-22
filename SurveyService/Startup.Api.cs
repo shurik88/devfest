@@ -25,7 +25,7 @@ namespace SurveyService
 
             //Set the comments path for the swagger json and ui.
             var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-            options.IncludeXmlComments(Path.Combine(basePath, "SurveysService.xml"));
+            options.IncludeXmlComments(Path.Combine(basePath, "SurveyService.xml"));
 
             options.OrderActionsBy(api => api.RelativePath);
 

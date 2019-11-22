@@ -15,13 +15,6 @@ class WalMessage(object):
 
 def parseWalMessage(text: str) -> WalMessage:
     match = re.search('table\s(?P<tablename>[^:]+):\s(?P<operation>\w+):.+\"Id\"[^:]+:(?P<idvalue>[^ ]+)', text)
-
-    # tableStartIndex = text.find('table')
-    # tableLastIndex = text.find(':')
-    # tableName = text[tableStartIndex + 6:tableLastIndex]
-    # actionLastIndex = text.find(':',tableLastIndex + 1)
-    # action = text[tableLastIndex + 2: actionLastIndex]
-    # return WalMessage('disciplines' if tableName == 'public."Disciplines"' else tableName, action, text[actionLastIndex + 1:])
     tableName = match.group('tablename')
     action = match.group('operation')
     key = match.group('idvalue')
@@ -34,7 +27,7 @@ def sendMessageToRabbitMq(msg: WalMessage):
     channel.basic_publish(exchange='devfestdisciplines',
                       routing_key=to,
                       body=json.dumps(msg.data))
-    print("message to {0}".format(to))
+    print("message to {0} sended".format(to))
 
 
 
@@ -58,15 +51,13 @@ cur.start_replication(slot_name ='pytest', decode=True)
 
 def consume(msg):
     if(msg.payload.find('table') != -1):
+        print(msg.payload)
         message = parseWalMessage(msg.payload)
         sendMessageToRabbitMq(message)
-    print(msg.payload)
+    
 
 
 cur.consume_stream(consume)
-# ^^^ endless loop: stop with Control-C
-# The replication slot is still there, drop it when you don’t need it.
 cur.drop_replication_slot( 'pytest')
-# DROP_REPLICATION_SLOT “pytest”
 
 

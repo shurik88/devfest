@@ -52,8 +52,8 @@ namespace SurveyService
                     .MinimumLevel.Warning()
                     .WriteTo.RollingFile(Path.Combine(logsPath, "log-{Date}.txt"))
                     .WriteTo.LiterateConsole());
-            if (hostingContext.HostingEnvironment.IsDevelopment())
-                loggingConfiguration.MinimumLevel.Debug();
+            //if (hostingContext.HostingEnvironment.IsDevelopment())
+            //    loggingConfiguration.MinimumLevel.Debug();
             Log.Logger = loggingConfiguration.CreateLogger();
             logging.AddSerilog();
         }

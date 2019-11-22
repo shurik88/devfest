@@ -71,8 +71,10 @@ namespace SurveyService.Infrastructure.BackgroundServices
 
         private async Task<RabbitMqMessageProcessingResult> ReadMessageAsync(string message)
         {
+            //return RabbitMqMessageProcessingResult.Success;
             using (var scope = _services.CreateScope())
             {
+                Console.WriteLine($"Message received: {message}");
                 var data = JsonConvert.DeserializeObject<EntityChange>(message);
                 var key = new Tuple<string, string>(data.Source, data.Entity);
                 if (!_handlers.ContainsKey(key))
