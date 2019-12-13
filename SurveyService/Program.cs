@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 using Serilog;
 using SurveyService.Services.DisciplinesService;
 using SurveyService.Services.Tests;
@@ -45,17 +46,19 @@ namespace SurveyService
 
         private static void ConfigureLogging(WebHostBuilderContext hostingContext, ILoggingBuilder logging)
         {
+            logging.SetMinimumLevel(LogLevel.Error);
             var logsPath = Path.Combine(hostingContext.HostingEnvironment.ContentRootPath, "logs");
             var loggingConfiguration = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Logger(l => l
-                    .MinimumLevel.Warning()
+                    .MinimumLevel.Error()
                     .WriteTo.RollingFile(Path.Combine(logsPath, "log-{Date}.txt"))
                     .WriteTo.LiterateConsole());
             //if (hostingContext.HostingEnvironment.IsDevelopment())
             //    loggingConfiguration.MinimumLevel.Debug();
-            Log.Logger = loggingConfiguration.CreateLogger();
-            logging.AddSerilog();
+            //Log.Logger = loggingConfiguration.CreateLogger();
+            logging.AddFilter(x => x == LogLevel.Error);
+            logging.AddSerilog(loggingConfiguration.CreateLogger());
         }
 
         private static void ConfigureAppConfiguration(WebHostBuilderContext hosting, IConfigurationBuilder config, string[] args)

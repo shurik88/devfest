@@ -122,8 +122,7 @@ namespace TestsService.Controllers
             if (test == null)
                 return NotFound($"test:{id} not found");
 
-            test.IsDeleted = true;
-            await _tests.SaveAsync(test);
+            await _tests.DeleteAsync(test);
             return Ok();
         }
 

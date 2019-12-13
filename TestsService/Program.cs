@@ -33,7 +33,7 @@ namespace TestsService
             var loggingConfiguration = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Logger(l => l
-                    .MinimumLevel.Warning()
+                    .MinimumLevel.Error()
                     .WriteTo.RollingFile(Path.Combine(logsPath, "log-{Date}.txt"))
                     .WriteTo.LiterateConsole());
             if (hostingContext.HostingEnvironment.IsDevelopment())

@@ -33,13 +33,13 @@ namespace DisciplinesService
             var loggingConfiguration = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Logger(l => l
-                    .MinimumLevel.Warning()
+                    .MinimumLevel.Error()
                     .WriteTo.RollingFile(Path.Combine(logsPath, "log-{Date}.txt"))
                     .WriteTo.LiterateConsole());
             if (hostingContext.HostingEnvironment.IsDevelopment())
                 loggingConfiguration.MinimumLevel.Debug();
-            Log.Logger = loggingConfiguration.CreateLogger();
-            logging.AddSerilog();
+            //Log.Logger = loggingConfiguration.CreateLogger();
+            logging.AddSerilog(loggingConfiguration.CreateLogger());
         }
 
         private static void ConfigureAppConfiguration(WebHostBuilderContext hosting, IConfigurationBuilder config, string[] args)
